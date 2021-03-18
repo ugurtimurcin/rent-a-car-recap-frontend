@@ -1,0 +1,25 @@
+<div class="row">
+  <div *ngFor="let car of cars" class="card mx-4 mb-3 p-0" style="width: 18rem">
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner m-0 p-0">
+        <div *ngFor='let img of car.imagePath let i=index' [ngClass]="setClassName(i)">
+          <img src="http://localhost:4797/carimages/{{img.imagePath}}.jpg" class="d-block w-100" alt="...">
+        </div>       
+      </div>
+    </div>
+    
+    <div class="card-body">
+      <h5 class="card-title">{{ car.brand }}</h5>
+      <p class="card-text">
+        <strong>Model Year: </strong>{{ car.description }}
+      </p>
+      <p class="card-text"><strong>Color: </strong>{{ car.color }}</p>
+      <p class="card-text">
+        <strong>Daily Price: </strong>{{ car.dailyPrice | currency: "TRY":"₺" }}
+      </p>
+      <p class="card-text">{{ car.description }}</p>
+      <a (click) = 'carDetail(car)' class="btn btn-primary">Go somewhere</a>
+    </div>
+    
+  </div>
+</div>
