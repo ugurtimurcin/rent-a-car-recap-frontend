@@ -7,6 +7,7 @@ export interface Car {
     dailyPrice: number;
     description: string;
     brand: string;
+    carName: string;
     color: string;
     imagePath: CarImage[];
 }
