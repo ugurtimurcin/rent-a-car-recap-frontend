@@ -1,24 +1,55 @@
-<div class="row">
-  <div *ngFor="let car of cars" class="card mx-4 mb-3 p-0" style="width: 18rem">
+
+<div class="mb-3">
+  <input type="text" [(ngModel)] = 'filterText' class="form-control" aria-describedby="searchBox" placeholder="Search">
+  <div *ngIf='filterText' id="searchBox" class="form-text">Search results for {{filterText}}</div>
+
+  
+  
+
+<div class="row my-2">
+  <div class="row my-2">
+    <div class="col-md-6">
+      <select class="form-select">
+        <option selected>Brands</option>
+        <option *ngFor="let car of cars" value="{{car.id}}">{{car.brand}}</option>
+        <button class="btn btn-sm btn-primary">Filter</button>
+      </select>
+        
+    </div>
+
+    <div class="col-md-6">
+      <select class="form-select">
+        <option selected>Colors</option>
+        <option *ngFor="let car of cars" value="">{{car.color}}</option>
+      </select>
+      <div>
+        <button class="btn btn-sm btn-primary">Filter</button>
+      </div>
+    </div>    
+  </div>
+  <div *ngFor="let car of cars | filterPipe: filterText" class="card mx-4 mb-3 p-0" style="width: 18rem">
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner m-0 p-0">
         <div *ngFor='let img of car.imagePath let i=index' [ngClass]="setClassName(i)">
-          <img src="http://localhost:4797/carimages/{{img.imagePath}}.jpg" class="d-block w-100" alt="...">
+          <img src="http://localhost:4797/carimages/{{img.imagePath}}.jpg" height="175px" class="d-block w-100" alt="...">
         </div>       
       </div>
     </div>
     
     <div class="card-body">
-      <h5 class="card-title">{{ car.brand }}</h5>
+      <h5 class="card-title text-center">{{ car.brand }}</h5>
       <p class="card-text">
-        <strong>Model Year: </strong>{{ car.description }}
+        <strong>Model Year: </strong>{{ car.carName }}
+      </p>
+      <p class="card-text">
+        <strong>Model Year: </strong>{{ car.modelYear }}
       </p>
       <p class="card-text"><strong>Color: </strong>{{ car.color }}</p>
       <p class="card-text">
         <strong>Daily Price: </strong>{{ car.dailyPrice | currency: "TRY":"₺" }}
       </p>
-      <p class="card-text">{{ car.description }}</p>
-      <a class="btn btn-primary">Go somewhere</a>
+      <p class="card-text"><strong>Description: </strong>{{ car.description }}</p>
+      <a routerLink='/detail/{{car.id}}' class="btn btn-primary">Detail</a>
     </div>
     
   </div>
