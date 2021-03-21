@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Brand } from 'src/app/models/brand';
 import { Car } from 'src/app/models/car';
+import { BrandService } from 'src/app/services/brand.service';
 import { CarService } from 'src/app/services/car.service';
 
 @Component({
@@ -11,9 +13,12 @@ import { CarService } from 'src/app/services/car.service';
 export class CarComponent implements OnInit {
 
   cars: Car[];
-  filterText: string = ''
-  constructor(private carService: CarService, private activatedRoute: ActivatedRoute) { }
+  filterText: string = '';
+  selectedBrand: string = '';
+  selectedColor: string = '';
 
+  constructor(private carService: CarService, private brandService: BrandService, private activatedRoute: ActivatedRoute) { }
+  
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params=>{
       if(params['id']){
@@ -44,6 +49,13 @@ export class CarComponent implements OnInit {
     else {
       return "carousel-item";
     }
+  }
+
+  setBrand(){
+    this.filterText = this.selectedBrand.toLocaleLowerCase();
+  }
+  setColor(){
+    this.filterText = this.selectedColor.toLocaleLowerCase();
   }
 
 }
