@@ -1,5 +1,5 @@
 <div class="row">
-    <table class="table table-hower">
+    <table *ngIf='car' class="table table-hower">
         <thead>
             <tr>
                 <th>Brand</th>
@@ -8,6 +8,7 @@
                 <th> Description</th>
                 <th>Color</th>
                 <th>Daily Price</th>
+                <th></th>
             </tr>
         </thead>
 
@@ -19,11 +20,47 @@
                 <td>{{car.description}}</td>
                 <td>{{car.color}}</td>
                 <td>{{car.dailyPrice | currency: '₺'}}</td>
+                <td><a href="#multiCollapseExample1"  class="btn btn-primary btn-sm" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Rent</a>
             </tr>
         </tbody>
     </table>
+    <div class="collapse multi-collapse mb-5" id="multiCollapseExample1">
+        <div class="card card-body">
+            
+            <form [formGroup] = 'addRentalForm' class="shadow p-3">
+                <input type="number" hidden formControlName = 'carId'>
+                <div class="form-group row mb-3">
+                    <label class="col-form-label col-md-3">Customer</label>
+                    <div class="col-md-9">
+                        <select class="form-select" formControlName="customerId">
+                            <option selected disabled>Customer</option>
+                            <option *ngFor='let customer of customers' [ngValue] = 'customer.id'>{{customer.companyName}}</option>
+                        </select>
+                    </div>
+                </div>
 
+                <div class="form-group row mb-3">
+                    <label class="col-form-label col-md-3">Rent Date</label>
+                    <div class="col-md-9">
+                        <input type="date" formControlName='rentDate' class="form-control">
+                    </div>
+                </div>
 
+                <div class="form-group row mb-3">
+                    <label class="col-form-label col-md-3">Return Date </label>
+                    <div class="col-md-9">
+                        <input type="date" formControlName='returnDate' class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="offset-md-3 col-md-9">
+                        <button class="btn btn-primary" (click) = 'addRental()'>Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -43,5 +80,5 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
-    </div>    
+    </div>
 </div>
