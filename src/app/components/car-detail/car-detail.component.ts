@@ -79,16 +79,13 @@ export class CarDetailComponent implements OnInit {
       this.rentalService.add(carModel).subscribe(response=>{
         this.toastrService.success('Rental added.')
       }, errorResponse => {
-        console.log(errorResponse)
-        if(errorResponse.error.Errors.length > 0){
-          for(let i=0; i<errorResponse.error.Errors.length; i++){
-            this.toastrService.error(errorResponse.error.Errors[i].ErrorMessage, "Validation Error");
-          }
-        }else{
-          this.toastrService.error("Check fields", "Attention");
+        if(errorResponse.error){
+          this.toastrService.error(errorResponse.error.message)
+        }else if(errorResponse.error.Errors.length>0){
+          for(let i = 0; i<errorResponse.error.Errors.length; i++)
+          this.toastrService.error(errorResponse.error.Errors[i].ErrorMessage);
         }
       });
     }
   }
-
 }
