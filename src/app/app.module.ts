@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { ToastrModule } from 'ngx-toastr';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery'
  
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,6 +33,7 @@ import { RentalComponent } from './components/rental/rental.component';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    NgxGalleryModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
     })
