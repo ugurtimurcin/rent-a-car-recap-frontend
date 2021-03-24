@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { RentalService } from 'src/app/services/rental.service';
 import { Customer } from 'src/app/models/customer';
 import { CustomerService } from 'src/app/services/customer.service';
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery'
 
 @Component({
   selector: 'app-car-detail',
@@ -20,6 +21,8 @@ export class CarDetailComponent implements OnInit {
   images: CarImage[];
   customers: Customer[];
   addRentalForm: FormGroup;
+  galleryOptions: NgxGalleryOptions[];
+  galleryImages: NgxGalleryImage[];
   
   constructor(private carService: CarService, private activatedRoute: ActivatedRoute, private toastrService: ToastrService, private formBuilder: FormBuilder, private rentalService: RentalService, private customerService: CustomerService) { }
 
@@ -31,9 +34,9 @@ export class CarDetailComponent implements OnInit {
       }
     })
     this.getCustomers();
-
-    this.createAddRentalForm();    
+    this.createAddRentalForm();
   }
+  
 
   createAddRentalForm(){
     this.addRentalForm = this.formBuilder.group({
@@ -48,6 +51,7 @@ export class CarDetailComponent implements OnInit {
     this.carService.getCar(id).subscribe(response=>{
       this.car = response.data;
       this.images = response.data.imagePath;
+      this.setGallery();
       
     })
   }
@@ -64,10 +68,6 @@ export class CarDetailComponent implements OnInit {
     else {
       return "carousel-item";
     }
-  }
-
-  demoAlert(){
-    this.toastrService.success('Alertify');
   }
 
   addRental(){
@@ -87,5 +87,46 @@ export class CarDetailComponent implements OnInit {
         }
       });
     }
+  }
+
+  addImage(){
+    const gallery = [];
+    for(let i=0; i<this.images.length; i++){
+      gallery.push({
+        small: `http://localhost:4797/carimages/${this.images[i].imagePath}.jpg`,
+        medium: `http://localhost:4797/carimages/${this.images[i].imagePath}.jpg`,
+        big: `http://localhost:4797/carimages/${this.images[i].imagePath}.jpg`
+      })
+    }
+
+    return gallery;
+  }
+
+  setGallery(){
+    this.galleryOptions = [
+      {
+        width: '600px',
+        height: '400px',
+        thumbnailsColumns: 4,
+        imageAnimation: NgxGalleryAnimation.Slide
+      },
+      // max-width 800
+      {
+        breakpoint: 800,
+        width: '100%',
+        height: '600px',
+        imagePercent: 80,
+        thumbnailsPercent: 20,
+        thumbnailsMargin: 20,
+        thumbnailMargin: 20
+      },
+      // max-width 400
+      {
+        breakpoint: 400,
+        preview: false
+      }
+    ];
+
+    this.galleryImages = this.addImage();
   }
 }
