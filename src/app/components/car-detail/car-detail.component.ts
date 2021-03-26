@@ -19,12 +19,11 @@ export class CarDetailComponent implements OnInit {
 
   car: Car;
   images: CarImage[];
-  customers: Customer[];
-  addRentalForm: FormGroup;
+  
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
   
-  constructor(private carService: CarService, private activatedRoute: ActivatedRoute, private toastrService: ToastrService, private formBuilder: FormBuilder, private rentalService: RentalService, private customerService: CustomerService) { }
+  constructor(private carService: CarService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
 
@@ -33,19 +32,11 @@ export class CarDetailComponent implements OnInit {
         this.getDetail(params['id']);
       }
     })
-    this.getCustomers();
-    this.createAddRentalForm();
+    
   }
   
 
-  createAddRentalForm(){
-    this.addRentalForm = this.formBuilder.group({
-      carId: [''], 
-      customerId :['', Validators.required], 
-      rentDate :['', Validators.required], 
-      returnDate :[''] 
-    });
-  }
+
 
   getDetail(id: number){
     this.carService.getCar(id).subscribe(response=>{
@@ -56,11 +47,7 @@ export class CarDetailComponent implements OnInit {
     })
   }
 
-  getCustomers(){
-    this.customerService.getAll().subscribe(response=>{
-      this.customers = response.data;
-    })
-  }
+ 
   setClassName(index:number){
     if(index == 0){
       return "carousel-item active";
@@ -70,24 +57,7 @@ export class CarDetailComponent implements OnInit {
     }
   }
 
-  addRental(){
-    this.addRentalForm.patchValue({
-      carId : this.car.id
-    });
-    if(this.addRentalForm.valid){
-      let carModel = Object.assign({}, this.addRentalForm.value)
-      this.rentalService.add(carModel).subscribe(response=>{
-        this.toastrService.success('Rental added.')
-      }, errorResponse => {
-        if(errorResponse.error){
-          this.toastrService.error(errorResponse.error.message)
-        }else if(errorResponse.error.Errors.length>0){
-          for(let i = 0; i<errorResponse.error.Errors.length; i++)
-          this.toastrService.error(errorResponse.error.Errors[i].ErrorMessage);
-        }
-      });
-    }
-  }
+  
 
   addImage(){
     const gallery = [];
