@@ -1,5 +1,5 @@
 import { ResponseModel } from "./response-model";
 
-export interface DetailModel<T> extends ResponseModel{
+export interface SingleResponseModel<T> extends ResponseModel{
     data: T
 }
